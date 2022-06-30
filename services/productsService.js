@@ -9,10 +9,10 @@ const validateId = (id) => {
 };
 
 const validateProduct = (product) => {
-  const schema = joi.object({
-    name: joi.string().required().min(5),
-  }).label('product');
-  validateSchema(schema, product);
+  const schemaRequired = joi.object({ name: joi.string().required() }).label('product');
+  const schemaMin = joi.object({ name: joi.string().min(5) }).label('product');
+  validateSchema(schemaRequired, product, 400);
+  validateSchema(schemaMin, product, 422);
 };
 
 const listProducts = async () => {
