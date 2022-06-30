@@ -12,6 +12,7 @@ const getProduct = async (req, res) => {
 };
 
 const addProduct = async (req, res) => {
+  productsService.validateProduct(req.body);
   const product = await productsService.addProduct(req.body);
   res.status(201).json(product);
 };

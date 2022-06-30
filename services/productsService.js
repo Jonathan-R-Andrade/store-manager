@@ -8,6 +8,13 @@ const validateId = (id) => {
   validateSchema(schema, id);
 };
 
+const validateProduct = (product) => {
+  const schema = joi.object({
+    name: joi.string().required().min(5),
+  }).label('product');
+  validateSchema(schema, product);
+};
+
 const listProducts = async () => {
   const products = await productsModel.listProducts();
   return products;
@@ -24,4 +31,4 @@ const addProduct = async (product) => {
   return { id, ...product };
 };
 
-module.exports = { validateId, listProducts, getProduct, addProduct };
+module.exports = { validateId, validateProduct, listProducts, getProduct, addProduct };
