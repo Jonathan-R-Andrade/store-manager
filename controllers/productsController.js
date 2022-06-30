@@ -6,6 +6,7 @@ const listProducts = async (_req, res) => {
 };
 
 const getProduct = async (req, res) => {
+  productsService.validateId(req.params.id);
   const product = await productsService.getProduct(req.params.id);
   res.status(200).json(product);
 };

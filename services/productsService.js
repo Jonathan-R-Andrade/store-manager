@@ -14,10 +14,9 @@ const listProducts = async () => {
 };
 
 const getProduct = async (id) => {
-  validateId(id);
   const product = await productsModel.getProduct(id);
   if (!product) throw new CustomError(404, 'Product not found');
   return product;
 };
 
-module.exports = { listProducts, getProduct };
+module.exports = { validateId, listProducts, getProduct };
