@@ -19,4 +19,9 @@ const getProduct = async (id) => {
   return product;
 };
 
-module.exports = { validateId, listProducts, getProduct };
+const addProduct = async (product) => {
+  const id = await productsModel.addProduct(product);
+  return { id, ...product };
+};
+
+module.exports = { validateId, listProducts, getProduct, addProduct };
