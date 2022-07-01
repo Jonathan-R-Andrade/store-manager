@@ -1,4 +1,5 @@
 const productsService = require('../services/productsService');
+const validations = require('../services/validations');
 
 const listProducts = async (_req, res) => {
   const products = await productsService.listProducts();
@@ -6,13 +7,13 @@ const listProducts = async (_req, res) => {
 };
 
 const getProduct = async (req, res) => {
-  productsService.validateId(req.params.id);
+  validations.validateId(req.params.id);
   const product = await productsService.getProduct(req.params.id);
   res.status(200).json(product);
 };
 
 const addProduct = async (req, res) => {
-  productsService.validateProduct(req.body);
+  validations.validateProduct(req.body);
   const product = await productsService.addProduct(req.body);
   res.status(201).json(product);
 };
