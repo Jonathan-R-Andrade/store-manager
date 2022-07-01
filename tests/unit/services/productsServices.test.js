@@ -12,23 +12,6 @@ describe('productsService', () => {
   afterEach(sinon.restore);
   const products = [{ id: 1, name: 'PS5' }, { id: 2, name: 'Xbox SX' }];
 
-  describe('#validateId', () => {
-
-    describe('ao receber um id invalido', async () => {
-      it('lança uma exceção com a mensagem ("id" must be a number)', async () => {
-        expect(() => productsService.validateId('abc')).to
-          .throw(CustomError, '"id" must be a number');
-      });
-    });
-
-    describe('ao receber um id valido', async () => {
-      it('não lança exceção', async () => {
-        expect(() => productsService.validateId(1)).to.not.throw(Error);
-      });
-    });
-
-  });
-
   describe('#getProduct', () => {
 
     describe('quando o produto existe', async () => {

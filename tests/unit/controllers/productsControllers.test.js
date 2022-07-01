@@ -2,6 +2,7 @@ const sinon = require('sinon');
 const { expect, use } = require('chai');
 const productsController = require('../../../controllers/productsController');
 const productsService = require('../../../services/productsService');
+const validations = require('../../../services/validations');
 const chaiAsPromised = require('chai-as-promised');
 const CustomError = require('../../../errors/CustomError');
 
@@ -20,7 +21,7 @@ describe('productsController', () => {
     describe('ao receber um id no parâmetro da requisição', async () => {
       it('se invalido lança uma exceção com a mensagem ("id" must be a number)',
         async () => {
-          sinon.stub(productsService, 'validateId')
+          sinon.stub(validations, 'validateId')
             .throws(new CustomError(400, '"id" must be a number'));
 
           req.params = { id: 'abc' };
@@ -31,7 +32,7 @@ describe('productsController', () => {
 
       it('se valido responde com status 200 e o produto no body da resposta',
         async () => {
-          sinon.stub(productsService, 'validateId');
+          sinon.stub(validations, 'validateId');
           sinon.stub(productsService, 'getProduct').resolves(products[0]);
 
           req.params = { id: '1' };
