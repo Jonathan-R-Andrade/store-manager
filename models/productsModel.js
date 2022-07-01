@@ -19,4 +19,14 @@ const addProduct = async (product) => {
   return insertId;
 };
 
-module.exports = { listProducts, getProduct, addProduct };
+const countFoundProducts = async (ids) => {
+  const queryValues = ids.map(() => '?').join(',');
+  const query = `
+    SELECT count('products') AS foundProducts FROM StoreManager.products
+    WHERE id in (${queryValues});
+  `;
+  const [[{ foundProducts }]] = await connection.execute(query, ids);
+  return foundProducts;
+};
+
+module.exports = { listProducts, getProduct, addProduct, countFoundProducts };
