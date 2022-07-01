@@ -10,7 +10,11 @@ use(chaiAsPromised);
 describe('productsService', () => {
 
   afterEach(sinon.restore);
-  const products = [{ id: 1, name: 'PS5' }, { id: 2, name: 'Xbox SX' }];
+  const correctProduct = { name: 'PlayStation 5' };
+  const products = [
+    { id: 1, name: 'PlayStation 5' },
+    { id: 2, name: 'Xbox Series X' }
+  ];
 
   describe('#getProduct', () => {
 
@@ -18,7 +22,7 @@ describe('productsService', () => {
       it('retorna o produto correspondente ao id', async () => {
         sinon.stub(productsModel, 'getProduct').resolves(products[0]);
         const response = await productsService.getProduct(1);
-        expect(response).to.be.a('object').equal(products[0]);
+        expect(response).to.be.an('object').equal(products[0]);
       });
     });
 
@@ -47,6 +51,18 @@ describe('productsService', () => {
         sinon.stub(productsModel, 'listProducts').resolves([]);
         const response = await productsService.listProducts();
         expect(response).to.be.an('array').that.is.empty;
+      });
+    });
+
+  });
+
+  describe('#addProduct', () => {
+
+    describe('ao adicionar o produto no banco de dados', async () => {
+      it('retorna o produto com seu id', async () => {
+        sinon.stub(productsModel, 'addProduct').resolves(1);
+        const response = await productsService.addProduct(correctProduct);
+        expect(response).to.be.an('object').that.includes(products[0]);
       });
     });
 

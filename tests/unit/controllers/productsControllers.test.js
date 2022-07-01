@@ -10,11 +10,19 @@ use(chaiAsPromised);
 
 describe('productsController', () => {
 
-  afterEach(sinon.restore);
-  const products = [{ id: 1, name: 'PS5' }, { id: 2, name: 'Xbox SX' }];
-
-  const req = {}
   const res = {};
+  const req = {};
+  res.json = sinon.stub();
+  res.status = sinon.stub().returns(res);
+
+  afterEach(sinon.restore);
+
+  const correctProduct = { name: 'PlayStation 5' };
+  const incorrectProduct = { name: 'PS5' };
+  const products = [
+    { id: 1, name: 'PlayStation 5' },
+    { id: 2, name: 'Xbox Series X' }
+  ];
 
   describe('#getProduct', () => {
 
@@ -36,8 +44,6 @@ describe('productsController', () => {
           sinon.stub(productsService, 'getProduct').resolves(products[0]);
 
           req.params = { id: '1' };
-          res.status = sinon.stub().returns(res);
-          res.json = sinon.stub();
 
           await productsController.getProduct(req, res);
           expect(res.status.calledWithExactly(200)).to.be.true;
@@ -54,9 +60,6 @@ describe('productsController', () => {
         async () => {
           sinon.stub(productsService, 'listProducts').resolves(products);
 
-          res.status = sinon.stub().returns(res);
-          res.json = sinon.stub();
-
           await productsController.listProducts(req, res);
           expect(res.status.calledWithExactly(200)).to.be.true;
           expect(res.json.calledWithExactly(products)).to.be.true;
@@ -67,13 +70,54 @@ describe('productsController', () => {
       it('responde com status 200 e um array vazio no body da resposta', async () => {
         sinon.stub(productsService, 'listProducts').resolves([]);
 
-        res.status = sinon.stub().returns(res);
-        res.json = sinon.stub();
-
         await productsController.listProducts(req, res);
         expect(res.status.calledWithExactly(200)).to.be.true;
         expect(res.json.calledWithExactly([])).to.be.true;
       });
+    });
+
+  });
+
+  describe('#addProduct', () => {
+
+    describe('ao receber um produto correto no body da requisição', async () => {
+      it('responde com status 201 e o produto no body da resposta',
+        async () => {
+          sinon.stub(productsService, 'addProduct').resolves(products[0]);
+
+          req.body = correctProduct;
+
+          await productsController.addProduct(req, res);
+          expect(res.status.calledWithExactly(201)).to.be.true;
+          expect(res.json.calledWithExactly(products[0])).to.be.true;
+        });
+    });
+
+    describe('ao receber um produto no body da requisição com', async () => {
+      it('o nome ausente, lança uma exceção com a mensagem ("name" is required)',
+        async () => {
+          sinon.stub(productsService, 'listProducts').resolves([]);
+
+          req.body = {};
+
+          await expect(productsController.addProduct(req, res)).to.be.rejectedWith(
+            CustomError,
+            '"name" is required'
+          );
+        });
+
+      it(`o nome com menos de 5 caracteres, lança uma exceção com a mensagem 
+              ("name" length must be at least 5 characters long)`,
+        async () => {
+          sinon.stub(productsService, 'listProducts').resolves([]);
+
+          req.body = incorrectProduct;
+
+          await expect(productsController.addProduct(req, res)).to.be.rejectedWith(
+            CustomError,
+            '"name" length must be at least 5 characters long'
+          );
+        });
     });
 
   });
