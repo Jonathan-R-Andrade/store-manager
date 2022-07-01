@@ -10,4 +10,30 @@ const addSaleProducts = async (saleId, products) => {
   return affectedRows;
 };
 
-module.exports = { addSaleProducts };
+const listSalesWithProducts = async () => {
+  const query = `
+    SELECT s.id AS saleId, s.date, p.id AS productId, sp.quantity
+    FROM StoreManager.sales_products AS sp
+    INNER JOIN StoreManager.products AS p
+    INNER JOIN StoreManager.sales AS s
+    ON sp.sale_id = s.id AND sp.product_id = p.id
+    ORDER BY s.id ASC, p.id ASC;
+  `;
+  const [salesWithProducts] = await connection.execute(query);
+  return salesWithProducts;
+};
+
+const getProductsFromASale = async (saleId) => {
+  const query = `
+    SELECT s.date, p.id AS productId, sp.quantity
+    FROM StoreManager.sales_products AS sp
+    INNER JOIN StoreManager.products AS p
+    INNER JOIN StoreManager.sales AS s
+    ON sp.sale_id = s.id AND sp.product_id = p.id
+    WHERE s.id = ?;
+  `;
+  const [productsFromASale] = await connection.execute(query, [saleId]);
+  return productsFromASale;
+};
+
+module.exports = { addSaleProducts, listSalesWithProducts, getProductsFromASale };
