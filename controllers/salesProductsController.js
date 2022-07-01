@@ -1,4 +1,5 @@
 const salesProductsService = require('../services/salesProductsService');
+const productsService = require('../services/productsService');
 
 const listSalesWithProducts = async (_req, res) => {
   const salesWithProducts = await salesProductsService.listSalesWithProducts();
@@ -7,6 +8,7 @@ const listSalesWithProducts = async (_req, res) => {
 
 const getProductsFromASale = async (req, res) => {
   const { id } = req.params;
+  productsService.validateId(id);
   const productsFromASale = await salesProductsService.getProductsFromASale(id);
   res.status(200).json(productsFromASale);
 };

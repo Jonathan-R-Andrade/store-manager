@@ -1,3 +1,4 @@
+const CustomError = require('../errors/CustomError');
 const salesProductsModel = require('../models/salesProductsModel');
 
 const listSalesWithProducts = async () => {
@@ -7,6 +8,7 @@ const listSalesWithProducts = async () => {
 
 const getProductsFromASale = async (saleId) => {
   const productsFromASale = await salesProductsModel.getProductsFromASale(saleId);
+  if (!productsFromASale.length) throw new CustomError(404, 'Sale not found');
   return productsFromASale;
 };
 
