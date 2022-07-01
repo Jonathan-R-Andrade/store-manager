@@ -15,6 +15,15 @@ const validateProduct = (product) => {
   validateSchema(schemaMin, product, 422);
 };
 
+const validateIfProductsExist = async (productsIds) => {
+  const totalProductsFound = await productsModel.countFoundProducts(productsIds);
+  if (productsIds.length !== totalProductsFound) {
+    throw new CustomError(404, 'Product not found');
+  }
+};
+
+const extractProductId = (products) => products.map(({ productId }) => productId);
+
 const listProducts = async () => {
   const products = await productsModel.listProducts();
   return products;
@@ -31,4 +40,12 @@ const addProduct = async (product) => {
   return { id, ...product };
 };
 
-module.exports = { validateId, validateProduct, listProducts, getProduct, addProduct };
+module.exports = {
+  validateId,
+  validateProduct,
+  validateIfProductsExist,
+  extractProductId,
+  listProducts,
+  getProduct,
+  addProduct,
+};
