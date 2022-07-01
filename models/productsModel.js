@@ -29,4 +29,16 @@ const countFoundProducts = async (ids) => {
   return foundProducts;
 };
 
-module.exports = { listProducts, getProduct, addProduct, countFoundProducts };
+const updateProduct = async (id, name) => {
+  const query = 'UPDATE StoreManager.products SET name=? WHERE id=?';
+  const [{ affectedRows }] = await connection.execute(query, [name, id]);
+  return affectedRows;
+};
+
+module.exports = {
+  listProducts,
+  getProduct,
+  addProduct,
+  updateProduct,
+  countFoundProducts,
+};
