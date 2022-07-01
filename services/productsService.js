@@ -17,8 +17,15 @@ const addProduct = async (product) => {
   return { id, ...product };
 };
 
+const updateProduct = async (id, { name }) => {
+  const affectedProducts = await productsModel.updateProduct(id, name);
+  if (!affectedProducts) throw new CustomError(404, 'Product not found');
+  return { id, name };
+};
+
 module.exports = {
   listProducts,
   getProduct,
   addProduct,
+  updateProduct,
 };
