@@ -97,8 +97,6 @@ describe('productsController', () => {
     describe('ao receber um produto no body da requisição com', async () => {
       it('o nome ausente, lança uma exceção com a mensagem ("name" is required)',
         async () => {
-          sinon.stub(productsService, 'listProducts').resolves([]);
-
           req.body = {};
 
           await expect(productsController.addProduct(req, res)).to.be.rejectedWith(
@@ -110,8 +108,6 @@ describe('productsController', () => {
       it(`o nome com menos de 5 caracteres, lança uma exceção com a mensagem 
               ("name" length must be at least 5 characters long)`,
         async () => {
-          sinon.stub(productsService, 'listProducts').resolves([]);
-
           req.body = incorrectProduct;
 
           await expect(productsController.addProduct(req, res)).to.be.rejectedWith(
