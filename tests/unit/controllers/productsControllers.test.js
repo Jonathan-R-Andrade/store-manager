@@ -13,6 +13,7 @@ describe('productsController', () => {
   const res = {};
   const req = {};
   res.json = sinon.stub();
+  res.end = sinon.stub();
   res.status = sinon.stub().returns(res);
 
   afterEach(sinon.restore);
@@ -194,6 +195,54 @@ describe('productsController', () => {
             '"name" length must be at least 5 characters long'
           );
         });
+    });
+
+  });
+
+  describe('#deleteProduct', () => {
+
+    describe('ao deletar um produto com sucesso', async () => {
+      it('responde com status 204', async () => {
+        sinon.stub(productsService, 'deleteProduct');
+
+        req.params = { id: '1' };
+
+        await productsController.deleteProduct(req, res);
+        expect(res.status.calledWithExactly(204)).to.be.true;
+      });
+    });
+
+    describe('ao receber um id no parâmetro da requisição', async () => {
+      it('se invalido lança uma exceção com a mensagem ("id" must be a number)',
+        async () => {
+          req.params = { id: 'abc' };
+
+          await expect(productsController.deleteProduct(req, res)).to
+            .be.rejectedWith(CustomError, '"id" must be a number');
+        });
+
+      it(`se menor que 1 lança uma exceção com a mensagem
+               ("id" must be greater than or equal to 1)`,
+        async () => {
+          req.params = { id: '0' };
+
+          await expect(productsController.deleteProduct(req, res)).to
+            .be.rejectedWith(CustomError, '"id" must be greater than or equal to 1');
+        });
+    });
+
+    describe('ao tentar deletar um produto que não existe', async () => {
+      it('lança uma exceção com a mensagem "Product not found"', async () => {
+        sinon.stub(productsService, 'deleteProduct')
+          .throws(new CustomError(404, 'Product not found'));
+
+        req.params = { id: '5' };
+
+        await expect(productsController.deleteProduct(req, res)).to.be.rejectedWith(
+          CustomError,
+          'Product not found'
+        );
+      });
     });
 
   });

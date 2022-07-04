@@ -124,4 +124,34 @@ describe('productsModel', () => {
 
   });
 
+  describe('#deleteProduct', () => {
+
+    describe('verifica se', async () => {
+      it('a função connection.execute é chamada com os argumentos corretos', async () => {
+        sinon.stub(connection, 'execute').resolves([{ affectedRows: 1 }]);
+        const { name } = correctProduct;
+        await productsModel.deleteProduct(1);
+        const query = 'DELETE FROM StoreManager.products WHERE id=?';
+        expect(connection.execute.calledWithExactly(query, [1])).to.be.true;
+      });
+    });
+
+    describe('ao deletar um produto', async () => {
+      it('retorna 1', async () => {
+        sinon.stub(connection, 'execute').resolves([{ affectedRows: 1 }]);
+        const response = await productsModel.deleteProduct(1);
+        expect(response).to.be.equal(1);
+      });
+    });
+
+    describe('se o produto não existe', async () => {
+      it('retorna 0', async () => {
+        sinon.stub(connection, 'execute').resolves([{ affectedRows: 0 }]);
+        const response = await productsModel.updateProduct(5);
+        expect(response).to.be.equal(0);
+      });
+    });
+
+  });
+
 });

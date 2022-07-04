@@ -88,4 +88,24 @@ describe('productsService', () => {
 
   });
 
+  describe('#deleteProduct', () => {
+
+    describe('ao deletar um produto com sucesso', async () => {
+      it('retorna undefined', async () => {
+        sinon.stub(productsModel, 'deleteProduct').resolves(1);
+        const response = await productsService.deleteProduct(1);
+        expect(response).to.be.undefined;
+      });
+    });
+
+    describe('ao tentar deletar um produto que não existe', async () => {
+      it('lança uma exceção com a mensagem "Product not found"', async () => {
+        sinon.stub(productsModel, 'deleteProduct').resolves(0);
+        await expect(productsService.deleteProduct(5))
+          .to.be.rejectedWith(CustomError, 'Product not found');
+      });
+    });
+
+  });
+
 });
