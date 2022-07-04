@@ -122,4 +122,80 @@ describe('productsController', () => {
 
   });
 
+  describe('#updateProduct', () => {
+
+    describe('ao atualizar um produto com sucesso', async () => {
+      it('responde com status 200 e o produto no body da resposta', async () => {
+        sinon.stub(productsService, 'updateProduct').resolves(products[0]);
+
+        req.params = { id: '1' };
+        req.body = correctProduct;
+
+        await productsController.updateProduct(req, res);
+        expect(res.status.calledWithExactly(200)).to.be.true;
+        expect(res.json.calledWithExactly(products[0])).to.be.true;
+      });
+    });
+
+    describe('ao receber um id no parâmetro da requisição', async () => {
+      it('se invalido lança uma exceção com a mensagem ("id" must be a number)',
+        async () => {
+          req.params = { id: 'abc' };
+
+          await expect(productsController.updateProduct(req, res)).to
+            .be.rejectedWith(CustomError, '"id" must be a number');
+        });
+
+      it(`se menor que 1 lança uma exceção com a mensagem
+               ("id" must be greater than or equal to 1)`,
+        async () => {
+          req.params = { id: '0' };
+
+          await expect(productsController.updateProduct(req, res)).to
+            .be.rejectedWith(CustomError, '"id" must be greater than or equal to 1');
+        });
+    });
+
+    describe('ao tentar atualizar um produto que não existe', async () => {
+      it('lança uma exceção com a mensagem "Product not found"', async () => {
+        sinon.stub(productsService, 'updateProduct')
+          .throws(new CustomError(404, 'Product not found'));
+
+        req.params = { id: '5' };
+        req.body = correctProduct;
+
+        await expect(productsController.updateProduct(req, res)).to.be.rejectedWith(
+          CustomError,
+          'Product not found'
+        );
+      });
+    });
+
+    describe('ao receber um produto no body da requisição com', async () => {
+      it('o nome ausente, lança uma exceção com a mensagem ("name" is required)',
+        async () => {
+          req.params = { id: '5' };
+          req.body = {};
+
+          await expect(productsController.updateProduct(req, res)).to.be.rejectedWith(
+            CustomError,
+            '"name" is required'
+          );
+        });
+
+      it(`o nome com menos de 5 caracteres, lança uma exceção com a mensagem 
+              ("name" length must be at least 5 characters long)`,
+        async () => {
+          req.params = { id: '5' };
+          req.body = incorrectProduct;
+
+          await expect(productsController.updateProduct(req, res)).to.be.rejectedWith(
+            CustomError,
+            '"name" length must be at least 5 characters long'
+          );
+        });
+    });
+
+  });
+
 });

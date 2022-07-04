@@ -92,4 +92,36 @@ describe('productsModel', () => {
 
   });
 
+  describe('#updateProduct', () => {
+
+    describe('verifica se', async () => {
+      it('a função connection.execute é chamada com os argumentos corretos', async () => {
+        sinon.stub(connection, 'execute').resolves([{ affectedRows: 1 }]);
+        const { name } = correctProduct;
+        await productsModel.updateProduct(1, name);
+        const query = 'UPDATE StoreManager.products SET name=? WHERE id=?';
+        expect(connection.execute.calledWithExactly(query, [name, 1])).to.be.true;
+      });
+    });
+
+    describe('ao atualizar um produto', async () => {
+      it('retorna 1', async () => {
+        sinon.stub(connection, 'execute').resolves([{ affectedRows: 1 }]);
+        const { name } = correctProduct;
+        const response = await productsModel.updateProduct(1, name);
+        expect(response).to.be.equal(1);
+      });
+    });
+
+    describe('se o produto não existe', async () => {
+      it('retorna 0', async () => {
+        sinon.stub(connection, 'execute').resolves([{ affectedRows: 0 }]);
+        const { name } = correctProduct;
+        const response = await productsModel.updateProduct(0, name);
+        expect(response).to.be.equal(0);
+      });
+    });
+
+  });
+
 });
