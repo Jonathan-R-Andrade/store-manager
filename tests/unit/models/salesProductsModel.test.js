@@ -26,7 +26,20 @@ describe('salesProductsModel', () => {
       productId: 3,
       quantity: 1
     }
-  ]
+  ];
+
+  const productsFromASale = [
+    {
+      date: "2022-07-05T19:57:21.000Z",
+      productId: 1,
+      quantity: 5
+    },
+    {
+      date: "2022-07-05T19:57:21.000Z",
+      productId: 2,
+      quantity: 10
+    }
+  ];
 
   describe('#addSaleProducts', () => {
 
@@ -65,6 +78,27 @@ describe('salesProductsModel', () => {
         sinon.stub(connection, 'execute').resolves([salesWithProducts]);
         const result = await salesProductsModel.listSalesWithProducts();
         expect(result).to.be.an('array').equals(salesWithProducts);
+      });
+    });
+
+  });
+
+  describe('#getProductsFromASale', () => {
+
+    describe('verifica se', async () => {
+      it('a função connection.execute é chamada com os argumentos corretos', async () => {
+        sinon.stub(connection, 'execute').resolves([productsFromASale]);
+        await salesProductsModel.getProductsFromASale(1);
+        const query = sqlQueries.getProductsFromASale();
+        expect(connection.execute.calledWithExactly(query, [1])).to.be.true;
+      });
+    });
+
+    describe('a função', async () => {
+      it('deve retorna um array contendo os produtos de uma venda', async () => {
+        sinon.stub(connection, 'execute').resolves([productsFromASale]);
+        const result = await salesProductsModel.getProductsFromASale(1);
+        expect(result).to.be.an('array').equals(productsFromASale);
       });
     });
 

@@ -2,6 +2,7 @@ const sinon = require('sinon');
 const { expect } = require('chai');
 const salesProductsController = require('../../../controllers/salesProductsController');
 const salesProductsService = require('../../../services/salesProductsService');
+const CustomError = require('../../../errors/CustomError');
 
 describe('salesProductsService', () => {
 
@@ -25,7 +26,20 @@ describe('salesProductsService', () => {
       productId: 3,
       quantity: 1
     }
-  ]
+  ];
+
+  const productsFromASale = [
+    {
+      date: "2022-07-05T19:57:21.000Z",
+      productId: 1,
+      quantity: 5
+    },
+    {
+      date: "2022-07-05T19:57:21.000Z",
+      productId: 2,
+      quantity: 10
+    }
+  ];
 
   describe('#listSalesWithProducts', () => {
 
@@ -48,6 +62,35 @@ describe('salesProductsService', () => {
         await salesProductsController.listSalesWithProducts(req, res);
         expect(res.status.calledWithExactly(200)).to.be.true;
         expect(res.json.calledWithExactly([])).to.be.true;
+      });
+    });
+
+  });
+
+  describe('#getProductsFromASale', () => {
+
+    describe('se a venda existe', async () => {
+      it('responde com status 200 e os produtos no body da resposta', async () => {
+        sinon.stub(salesProductsService, 'getProductsFromASale')
+          .resolves(productsFromASale);
+
+        req.params = { id: '1' };
+
+        await salesProductsController.getProductsFromASale(req, res);
+        expect(res.status.calledWithExactly(200)).to.be.true;
+        expect(res.json.calledWithExactly(productsFromASale)).to.be.true;
+      });
+    });
+
+    describe('se a venda não existe', async () => {
+      it('lança uma exceção com a mensagem "Sale not found"', async () => {
+        sinon.stub(salesProductsService, 'getProductsFromASale')
+          .throws(new CustomError(404, 'Sale not found'));
+
+        req.params = { id: '5' };
+
+        await expect(salesProductsController.getProductsFromASale(req, res))
+          .to.be.rejectedWith(CustomError, 'Sale not found');
       });
     });
 
