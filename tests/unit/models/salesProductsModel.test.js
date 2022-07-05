@@ -13,6 +13,21 @@ describe('salesProductsModel', () => {
     { productId: 2, quantity: 3 }
   ];
 
+  const salesWithProducts = [
+    {
+      saleId: 1,
+      date: "2022-07-05T19:05:53.479Z",
+      productId: 5,
+      quantity: 2
+    },
+    {
+      saleId: 2,
+      date: "2022-07-05T19:05:53.479Z",
+      productId: 3,
+      quantity: 1
+    }
+  ]
+
   describe('#addSaleProducts', () => {
 
     describe('verifica se', async () => {
@@ -29,6 +44,27 @@ describe('salesProductsModel', () => {
         sinon.stub(connection, 'execute').resolves([{ affectedRows: 2 }]);
         const result = await salesProductsModel.addSaleProducts(1, products);
         expect(result).to.be.equals(2);
+      });
+    });
+
+  });
+
+  describe('#listSalesWithProducts', () => {
+
+    describe('verifica se', async () => {
+      it('a função connection.execute é chamada com os argumentos corretos', async () => {
+        sinon.stub(connection, 'execute').resolves([salesWithProducts]);
+        await salesProductsModel.listSalesWithProducts();
+        const query = sqlQueries.listSalesWithProducts();
+        expect(connection.execute.calledWithExactly(query)).to.be.true;
+      });
+    });
+
+    describe('a função', async () => {
+      it('deve retorna um array contendo as vendas com os produtos', async () => {
+        sinon.stub(connection, 'execute').resolves([salesWithProducts]);
+        const result = await salesProductsModel.listSalesWithProducts();
+        expect(result).to.be.an('array').equals(salesWithProducts);
       });
     });
 
