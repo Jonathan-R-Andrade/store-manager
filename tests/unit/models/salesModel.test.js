@@ -2,6 +2,7 @@ const sinon = require('sinon');
 const { expect } = require('chai');
 const connection = require('../../../models/connection');
 const salesModel = require('../../../models/salesModel');
+const sqlQueries = require('../../../models/sqlQueries');
 
 describe('salesModel', () => {
 
@@ -13,7 +14,7 @@ describe('salesModel', () => {
       it('a função connection.execute é chamada com os argumentos corretos', async () => {
         sinon.stub(connection, 'execute').resolves([{ insertId: 1 }]);
         await salesModel.addSale();
-        const query = 'INSERT INTO StoreManager.sales VALUES ()';
+        const query = sqlQueries.addSale();
         expect(connection.execute.calledWithExactly(query)).to.be.true;
       });
     });
