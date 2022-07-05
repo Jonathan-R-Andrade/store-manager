@@ -1,7 +1,8 @@
 const connection = require('./connection');
+const sqlQueries = require('./sqlQueries');
 
 const addSale = async () => {
-  const query = 'INSERT INTO StoreManager.sales VALUES ()';
+  const query = sqlQueries.addSale();
   const [{ insertId }] = await connection.execute(query);
   return insertId;
 };
