@@ -9,4 +9,10 @@ const addSale = async (req, res) => {
   res.status(201).json(result);
 };
 
-module.exports = { addSale };
+const deleteSale = async (req, res) => {
+  validations.validateId(req.params.id);
+  await salesService.deleteSale(req.params.id);
+  res.status(204).end();
+};
+
+module.exports = { addSale, deleteSale };

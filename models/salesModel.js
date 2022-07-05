@@ -7,4 +7,10 @@ const addSale = async () => {
   return insertId;
 };
 
-module.exports = { addSale };
+const deleteSale = async (id) => {
+  const query = sqlQueries.deleteSale();
+  const [{ affectedRows }] = await connection.execute(query, [id]);
+  return affectedRows;
+};
+
+module.exports = { addSale, deleteSale };
