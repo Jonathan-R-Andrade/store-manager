@@ -10,22 +10,27 @@ const validateId = (id) => {
 };
 
 const validateProduct = (product) => {
-  const schemaRequired = Joi.object({ name: Joi.string().required() }).label('product');
-  const schemaMin = Joi.object({ name: Joi.string().min(5) }).label('product');
+  const schemaRequired = Joi.object({ name: Joi.string().required() })
+    .label('product').required();
+  const schemaMin = Joi.object({ name: Joi.string().min(5) })
+    .label('product').required();
   validateSchema(schemaRequired, product, 400);
   validateSchema(schemaMin, product, 422);
 };
 
 const validateProducts = (products) => {
+  const schema = Joi.array().min(1).required().label('products');
+  validateSchema(schema, products, 400);
+
   const schemaRequired = Joi.object({
     productId: Joi.number().required(),
     quantity: Joi.number().required(),
-  }).label('products');
+  }).label('product');
 
   const schemaMin = Joi.object({
     productId: Joi.number().min(1),
     quantity: Joi.number().min(1),
-  }).label('products');
+  }).label('product');
 
   products.forEach((product) => {
     validateSchema(schemaRequired, product, 400);
