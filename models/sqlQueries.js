@@ -44,6 +44,10 @@ const sqlQueries = {
     SET quantity=?
     WHERE sale_id=? AND product_id=?;
   `,
+  checkIfExistsSaleOfProducts: () => `
+    SELECT count('exists') AS \`exists\` FROM StoreManager.sales_products
+    WHERE sale_id=?;
+  `,
 };
 
 module.exports = sqlQueries;
