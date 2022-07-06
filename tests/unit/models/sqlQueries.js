@@ -16,6 +16,7 @@ const sqlQueries = {
 
   // sales queries
   addSale: 'INSERT INTO StoreManager.sales VALUES ()',
+  deleteSale: 'DELETE FROM StoreManager.sales WHERE id=?',
 
   // sales_products queries
   addSaleProducts: `
