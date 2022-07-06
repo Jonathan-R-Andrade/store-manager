@@ -2,8 +2,14 @@ const sinon = require('sinon');
 const { expect } = require('chai');
 const salesProductsController = require('../../../controllers/salesProductsController');
 const salesProductsService = require('../../../services/salesProductsService');
+const validations = require('../../../services/validations');
 const CustomError = require('../../../errors/CustomError');
-const { salesWithProducts, productsFromASale } = require('../mock/data');
+const {
+  salesWithProducts,
+  productsFromASale,
+  saleWithUpdatedProducts,
+  updatedProducts,
+} = require('../mock/data');
 
 describe('salesProductsService', () => {
 
@@ -64,6 +70,53 @@ describe('salesProductsService', () => {
 
         await expect(salesProductsController.getProductsFromASale(req, res))
           .to.be.rejectedWith(CustomError, 'Sale not found');
+      });
+    });
+
+  });
+
+  describe('#updateProductsFromASale', () => {
+
+    describe('se a venda e os produtos existem e estão corretos', async () => {
+      it('responde com status 200 e a venda com os produtos atualizados', async () => {
+        sinon.stub(validations, 'validateIfExistsSaleOfProducts');
+        sinon.stub(validations, 'validateIfProductsExist');
+        sinon.stub(salesProductsService, 'updateProductsFromASale').resolves(saleWithUpdatedProducts);
+
+        req.params = { id: '1' };
+        req.body = updatedProducts;
+
+        await salesProductsController.updateProductsFromASale(req, res);
+        expect(res.status.calledWithExactly(200)).to.be.true;
+        expect(res.json.calledWithExactly(saleWithUpdatedProducts)).to.be.true;
+      });
+    });
+
+    describe('se a venda não existe', async () => {
+      it('lança uma exceção com a mensagem "Sale not found"', async () => {
+        sinon.stub(validations, 'validateIfExistsSaleOfProducts')
+          .throws(new CustomError(404, 'Sale not found'));
+        sinon.stub(validations, 'validateIfProductsExist');
+
+        req.params = { id: '999' };
+        req.body = updatedProducts;
+
+        await expect(salesProductsController.updateProductsFromASale(req, res))
+          .to.be.rejectedWith(CustomError, 'Sale not found');
+      });
+    });
+
+    describe('se algum produto não existe', async () => {
+      it('lança uma exceção com a mensagem "Product not found"', async () => {
+        sinon.stub(validations, 'validateIfExistsSaleOfProducts');
+        sinon.stub(validations, 'validateIfProductsExist')
+          .throws(new CustomError(404, 'Product not found'));
+
+        req.params = { id: '1' };
+        req.body = updatedProducts;
+
+        await expect(salesProductsController.updateProductsFromASale(req, res))
+          .to.be.rejectedWith(CustomError, 'Product not found');
       });
     });
 
