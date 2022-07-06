@@ -2,7 +2,7 @@ const sinon = require('sinon');
 const { expect } = require('chai');
 const connection = require('../../../models/connection');
 const productsModel = require('../../../models/productsModel');
-const sqlQueries = require('../../../models/sqlQueries');
+const sqlQueries = require('./sqlQueries');
 
 describe('productsModel', () => {
 
@@ -19,7 +19,7 @@ describe('productsModel', () => {
       it('a função connection.execute é chamada com os argumentos corretos', async () => {
         sinon.stub(connection, 'execute').resolves([[]]);
         await productsModel.getProduct(1);
-        const query = sqlQueries.getProduct();
+        const query = sqlQueries.getProduct;
         expect(connection.execute.calledWithExactly(query, [1])).to.be.true;
       });
     });
@@ -48,7 +48,7 @@ describe('productsModel', () => {
       it('a função connection.execute é chamada com os argumentos corretos', async () => {
         sinon.stub(connection, 'execute').resolves([[]]);
         await productsModel.listProducts();
-        const query = sqlQueries.listProducts();
+        const query = sqlQueries.listProducts;
         expect(connection.execute.calledWithExactly(query)).to.be.true;
       });
     });
@@ -77,7 +77,7 @@ describe('productsModel', () => {
       it('a função connection.execute é chamada com os argumentos corretos', async () => {
         sinon.stub(connection, 'execute').resolves([[]]);
         await productsModel.addProduct(correctProduct);
-        const query = sqlQueries.addProduct();
+        const query = sqlQueries.addProduct;
         const { name } = correctProduct;
         expect(connection.execute.calledWithExactly(query, [name])).to.be.true;
       });
@@ -100,7 +100,7 @@ describe('productsModel', () => {
         sinon.stub(connection, 'execute').resolves([{ affectedRows: 1 }]);
         const { name } = correctProduct;
         await productsModel.updateProduct(1, name);
-        const query = sqlQueries.updateProduct();
+        const query = sqlQueries.updateProduct;
         expect(connection.execute.calledWithExactly(query, [name, 1])).to.be.true;
       });
     });
@@ -132,7 +132,7 @@ describe('productsModel', () => {
         sinon.stub(connection, 'execute').resolves([{ affectedRows: 1 }]);
         const { name } = correctProduct;
         await productsModel.deleteProduct(1);
-        const query = sqlQueries.deleteProduct();
+        const query = sqlQueries.deleteProduct;
         expect(connection.execute.calledWithExactly(query, [1])).to.be.true;
       });
     });

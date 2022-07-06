@@ -2,7 +2,7 @@ const sinon = require('sinon');
 const { expect } = require('chai');
 const connection = require('../../../models/connection');
 const salesProductsModel = require('../../../models/salesProductsModel');
-const sqlQueries = require('../../../models/sqlQueries');
+const sqlQueries = require('./sqlQueries');
 
 describe('salesProductsModel', () => {
 
@@ -47,7 +47,7 @@ describe('salesProductsModel', () => {
       it('a função connection.execute é chamada com os argumentos corretos', async () => {
         sinon.stub(connection, 'execute').resolves([{ affectedRows: 1 }]);
         await salesProductsModel.addSaleProducts(1, [{ productId: 1, quantity: 5 }]);
-        const query = sqlQueries.addSaleProducts(1, 3);
+        const query = sqlQueries.addSaleProducts;
         expect(connection.execute.calledWithExactly(query, [1, 1, 5])).to.be.true;
       });
     });
@@ -68,7 +68,7 @@ describe('salesProductsModel', () => {
       it('a função connection.execute é chamada com os argumentos corretos', async () => {
         sinon.stub(connection, 'execute').resolves([salesWithProducts]);
         await salesProductsModel.listSalesWithProducts();
-        const query = sqlQueries.listSalesWithProducts();
+        const query = sqlQueries.listSalesWithProducts;
         expect(connection.execute.calledWithExactly(query)).to.be.true;
       });
     });
@@ -89,7 +89,7 @@ describe('salesProductsModel', () => {
       it('a função connection.execute é chamada com os argumentos corretos', async () => {
         sinon.stub(connection, 'execute').resolves([productsFromASale]);
         await salesProductsModel.getProductsFromASale(1);
-        const query = sqlQueries.getProductsFromASale();
+        const query = sqlQueries.getProductsFromASale;
         expect(connection.execute.calledWithExactly(query, [1])).to.be.true;
       });
     });

@@ -3,7 +3,7 @@ const makeRows = (totalRows, totalColumns) => new Array(totalRows)
   .fill(`(${makeQuestionMarks(totalColumns)})`).join(',');
 
 const sqlQueries = {
-  // productsModel queries
+  // products queries
   listProducts: () => 'SELECT * FROM StoreManager.products',
   getProduct: () => 'SELECT * FROM StoreManager.products WHERE id=?',
   addProduct: () => 'INSERT INTO StoreManager.products (name) VALUES (?)',
@@ -18,11 +18,11 @@ const sqlQueries = {
     WHERE name LIKE ?;
   `,
 
-  // salesModel queries
+  // sales queries
   addSale: () => 'INSERT INTO StoreManager.sales VALUES ()',
   deleteSale: () => 'DELETE FROM StoreManager.sales WHERE id=?',
 
-  // salesProductsModel queries
+  // product_id queries
   addSaleProducts: (totalRows, totalColumns) => `
     INSERT INTO StoreManager.sales_products
     VALUES ${makeRows(totalRows, totalColumns)}
