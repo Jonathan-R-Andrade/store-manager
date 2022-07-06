@@ -1,5 +1,6 @@
 const Joi = require('joi');
 const productsModel = require('../models/productsModel');
+const salesProductsModel = require('../models/salesProductsModel');
 const CustomError = require('../errors/CustomError');
 const validateSchema = require('./validateSchema');
 
@@ -39,6 +40,11 @@ const validateIfProductsExist = async (productsIds) => {
   }
 };
 
+const validateIfExistsSaleOfProducts = async (saleId) => {
+  const exists = await salesProductsModel.checkIfExistsSaleOfProducts(saleId);
+  if (!exists) throw new CustomError(404, 'Sale not found');
+};
+
 const extractProductId = (products) => products.map(({ productId }) => productId);
 
 module.exports = {
@@ -46,5 +52,6 @@ module.exports = {
   validateProduct,
   validateProducts,
   validateIfProductsExist,
+  validateIfExistsSaleOfProducts,
   extractProductId,
 };
