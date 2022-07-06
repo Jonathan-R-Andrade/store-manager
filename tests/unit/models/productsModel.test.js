@@ -3,15 +3,11 @@ const { expect } = require('chai');
 const connection = require('../../../models/connection');
 const productsModel = require('../../../models/productsModel');
 const sqlQueries = require('./sqlQueries');
+const { products, correctProduct } = require('../mock/data');
 
 describe('productsModel', () => {
 
   afterEach(() => { connection.execute.restore(); });
-  const correctProduct = { name: 'PlayStation 5' };
-  const products = [
-    { id: 1, name: 'PlayStation 5' },
-    { id: 2, name: 'Xbox Series X' }
-  ];
 
   describe('#getProduct', () => {
 
