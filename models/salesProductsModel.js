@@ -22,4 +22,16 @@ const getProductsFromASale = async (saleId) => {
   return productsFromASale;
 };
 
-module.exports = { addSaleProducts, listSalesWithProducts, getProductsFromASale };
+const updateProductFromASale = async (saleId, productId, quantity) => {
+  const query = sqlQueries.updateProductFromASale();
+  const [{ affectedRows }] = await connection
+    .execute(query, [quantity, saleId, productId]);
+  return affectedRows;
+};
+
+module.exports = {
+  addSaleProducts,
+  listSalesWithProducts,
+  getProductsFromASale,
+  updateProductFromASale,
+};

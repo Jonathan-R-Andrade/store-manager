@@ -12,4 +12,15 @@ const getProductsFromASale = async (saleId) => {
   return productsFromASale;
 };
 
-module.exports = { listSalesWithProducts, getProductsFromASale };
+const updateProductsFromASale = async (saleId, products) => {
+  const promises = products.map(({ productId, quantity }) =>
+    salesProductsModel.updateProductFromASale(saleId, productId, quantity));
+  await Promise.all(promises);
+  return { saleId, itemsUpdated: products };
+};
+
+module.exports = {
+  listSalesWithProducts,
+  getProductsFromASale,
+  updateProductsFromASale,
+};

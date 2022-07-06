@@ -13,4 +13,17 @@ const getProductsFromASale = async (req, res) => {
   res.status(200).json(productsFromASale);
 };
 
-module.exports = { listSalesWithProducts, getProductsFromASale };
+const updateProductsFromASale = async (req, res) => {
+  const { id } = req.params;
+  const { body } = req;
+  validations.validateId(id);
+  validations.validateProducts(body);
+  const productsUpdated = await salesProductsService.updateProductsFromASale(id, body);
+  res.status(200).json(productsUpdated);
+};
+
+module.exports = {
+  listSalesWithProducts,
+  getProductsFromASale,
+  updateProductsFromASale,
+};
