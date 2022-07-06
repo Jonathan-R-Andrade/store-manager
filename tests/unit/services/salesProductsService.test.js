@@ -3,7 +3,12 @@ const { expect } = require('chai');
 const salesProductsService = require('../../../services/salesProductsService');
 const salesProductsModel = require('../../../models/salesProductsModel');
 const CustomError = require('../../../errors/CustomError');
-const { salesWithProducts, productsFromASale } = require('../mock/data');
+const {
+  salesWithProducts,
+  productsFromASale,
+  updatedProducts,
+  saleWithUpdatedProducts,
+} = require('../mock/data');
 
 describe('salesProductsService', () => {
 
@@ -36,6 +41,18 @@ describe('salesProductsService', () => {
         sinon.stub(salesProductsModel, 'getProductsFromASale').resolves([]);
         await expect(salesProductsService.getProductsFromASale(5))
           .to.be.rejectedWith(CustomError, 'Sale not found');
+      });
+    });
+
+  });
+
+  describe('#updateProductsFromASale', () => {
+
+    describe('ao atualizar os produtos', async () => {
+      it('retorna um objeto com o id da venda e os produtos atualizados', async () => {
+        sinon.stub(salesProductsModel, 'updateProductFromASale').resolves(1);
+        const result = await salesProductsService.updateProductsFromASale(1, updatedProducts);
+        expect(result).to.be.an('object').that.includes(saleWithUpdatedProducts);
       });
     });
 

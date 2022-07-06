@@ -11,6 +11,16 @@ const saleWithProducts = {
   itemsSold: products,
 };
 
+const updatedProducts = [
+  { productId: 1, quantity: 5 },
+  { productId: 2, quantity: 3 }
+];
+
+const saleWithUpdatedProducts = {
+  saleId: 1,
+  itemsUpdated: updatedProducts
+}
+
 const salesWithProducts = [
   {
     saleId: 1,
@@ -46,4 +56,6 @@ module.exports = {
   saleWithProducts,
   salesWithProducts,
   productsFromASale,
+  updatedProducts,
+  saleWithUpdatedProducts,
 };
