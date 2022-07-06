@@ -39,6 +39,15 @@ const sqlQueries = {
     ON sp.sale_id = s.id AND sp.product_id = p.id
     WHERE s.id = ?;
   `,
+  updateProductFromASale: `
+    UPDATE StoreManager.sales_products
+    SET quantity=?
+    WHERE sale_id=? AND product_id=?;
+  `,
+  checkIfExistsSaleOfProducts: `
+    SELECT count('exists') AS \`exists\` FROM StoreManager.sales_products
+    WHERE sale_id=?;
+  `,
 };
 
 module.exports = sqlQueries;

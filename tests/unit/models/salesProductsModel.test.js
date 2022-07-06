@@ -72,4 +72,54 @@ describe('salesProductsModel', () => {
 
   });
 
+  describe('#updateProductFromASale', () => {
+
+    describe('verifica se', async () => {
+      it('a função connection.execute é chamada com os argumentos corretos', async () => {
+        sinon.stub(connection, 'execute').resolves([{ affectedRows: 1 }]);
+        await salesProductsModel.updateProductFromASale(1, 2, 3);
+        const query = sqlQueries.updateProductFromASale;
+        expect(connection.execute.calledWithExactly(query, [3, 1, 2])).to.be.true;
+      });
+    });
+
+    describe('ao atualizar um produto', async () => {
+      it('retorna 1', async () => {
+        sinon.stub(connection, 'execute').resolves([{ affectedRows: 1 }]);
+        const result = await salesProductsModel.updateProductFromASale(1, 2, 3);
+        expect(result).to.be.equals(1);
+      });
+    });
+
+  });
+
+  describe('#checkIfExistsSaleOfProducts', () => {
+
+    describe('verifica se', async () => {
+      it('a função connection.execute é chamada com os argumentos corretos', async () => {
+        sinon.stub(connection, 'execute').resolves([[{ exists: 1 }]]);
+        await salesProductsModel.checkIfExistsSaleOfProducts(1);
+        const query = sqlQueries.checkIfExistsSaleOfProducts;
+        expect(connection.execute.calledWithExactly(query, [1])).to.be.true;
+      });
+    });
+
+    describe('ao verificar que existe venda com o id informado', async () => {
+      it('retorna true', async () => {
+        sinon.stub(connection, 'execute').resolves([[{ exists: 1 }]]);
+        const result = await salesProductsModel.checkIfExistsSaleOfProducts(1);
+        expect(result).to.be.true;
+      });
+    });
+
+    describe('ao verificar que não existe venda com o id informado', async () => {
+      it('retorna false', async () => {
+        sinon.stub(connection, 'execute').resolves([[{ exists: 0 }]]);
+        const result = await salesProductsModel.checkIfExistsSaleOfProducts(1);
+        expect(result).to.be.false;
+      });
+    });
+
+  });
+
 });
