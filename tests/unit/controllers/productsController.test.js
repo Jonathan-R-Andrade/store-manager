@@ -237,4 +237,21 @@ describe('productsController', () => {
 
   });
 
+  describe('#getProductsBySearchTerm', () => {
+
+    describe('ao pesquisar um produto pelo termo', async () => {
+      it(`responde com status 200 e um array no body da resposta
+          com os produtos conforme a pesquisa`, async () => {
+        sinon.stub(productsService, 'getProductsBySearchTerm').resolves(products);
+
+        req.query = { q: 'S' };
+
+        await productsController.getProductsBySearchTerm(req, res);
+        expect(res.status.calledWithExactly(200)).to.be.true;
+        expect(res.json.calledWithExactly(products)).to.be.true;
+      });
+    });
+
+  });
+
 });
