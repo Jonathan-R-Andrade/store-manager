@@ -38,11 +38,19 @@ const deleteProduct = async (id) => {
   return affectedRows;
 };
 
+const getProductsBySearchTerm = async (searchTerm) => {
+  const query = sqlQueries.getProductsBySearchTerm();
+  const sqlLikeTerm = `%${searchTerm}%`;
+  const [products] = await connection.execute(query, [sqlLikeTerm]);
+  return products;
+};
+
 module.exports = {
   listProducts,
   getProduct,
   addProduct,
   updateProduct,
   deleteProduct,
+  getProductsBySearchTerm,
   countFoundProducts,
 };

@@ -12,6 +12,11 @@ const getProduct = async (req, res) => {
   res.status(200).json(product);
 };
 
+const getProductsBySearchTerm = async (req, res) => {
+  const products = await productsService.getProductsBySearchTerm(req.query.q);
+  res.status(200).json(products);
+};
+
 const addProduct = async (req, res) => {
   validations.validateProduct(req.body);
   const product = await productsService.addProduct(req.body);
@@ -34,6 +39,7 @@ const deleteProduct = async (req, res) => {
 module.exports = {
   listProducts,
   getProduct,
+  getProductsBySearchTerm,
   addProduct,
   updateProduct,
   deleteProduct,
