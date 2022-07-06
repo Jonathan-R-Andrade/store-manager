@@ -1,9 +1,15 @@
 const correctProduct = { name: 'PlayStation 5' };
+const incorrectProduct = { name: 'PS5' };
 
 const products = [
   { id: 1, name: 'PlayStation 5' },
   { id: 2, name: 'Xbox Series X' }
 ];
+
+const saleWithProducts = {
+  id: 1,
+  itemsSold: products,
+};
 
 const salesWithProducts = [
   {
@@ -35,7 +41,9 @@ const productsFromASale = [
 
 module.exports = {
   correctProduct,
+  incorrectProduct,
   products,
+  saleWithProducts,
   salesWithProducts,
   productsFromASale,
 };

@@ -5,6 +5,7 @@ const productsService = require('../../../services/productsService');
 const validations = require('../../../services/validations');
 const chaiAsPromised = require('chai-as-promised');
 const CustomError = require('../../../errors/CustomError');
+const { products, correctProduct, incorrectProduct } = require('../mock/data');
 
 use(chaiAsPromised);
 
@@ -17,13 +18,6 @@ describe('productsController', () => {
   res.status = sinon.stub().returns(res);
 
   afterEach(sinon.restore);
-
-  const correctProduct = { name: 'PlayStation 5' };
-  const incorrectProduct = { name: 'PS5' };
-  const products = [
-    { id: 1, name: 'PlayStation 5' },
-    { id: 2, name: 'Xbox Series X' }
-  ];
 
   describe('#getProduct', () => {
 
