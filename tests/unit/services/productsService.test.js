@@ -104,4 +104,24 @@ describe('productsService', () => {
 
   });
 
+  describe('#getProductsBySearchTerm', () => {
+
+    describe('se existem produtos que correspondem ao termo', async () => {
+      it('retorna um array com os produtos', async () => {
+        sinon.stub(productsModel, 'getProductsBySearchTerm').resolves(products);
+        const response = await productsService.getProductsBySearchTerm('S');
+        expect(response).to.be.an('array').equals(products);
+      });
+    });
+
+    describe('se não existem produtos que correspondem ao termo', async () => {
+      it('retorna um array vazio', async () => {
+        sinon.stub(productsModel, 'getProductsBySearchTerm').resolves([]);
+        const response = await productsService.getProductsBySearchTerm('abcdef');
+        expect(response).to.be.an('array').that.is.empty;
+      });
+    });
+
+  });
+
 });
