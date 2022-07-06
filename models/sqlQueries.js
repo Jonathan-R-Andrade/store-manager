@@ -13,6 +13,10 @@ const sqlQueries = {
     SELECT count('products') AS foundProducts FROM StoreManager.products
     WHERE id in (${makeQuestionMarks(totalIds)});
   `,
+  getProductsBySearchTerm: () => `
+    SELECT * FROM StoreManager.products
+    WHERE name LIKE ?;
+  `,
 
   // salesModel queries
   addSale: () => 'INSERT INTO StoreManager.sales VALUES ()',
