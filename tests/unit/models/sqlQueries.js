@@ -5,6 +5,14 @@ const sqlQueries = {
   addProduct: 'INSERT INTO StoreManager.products (name) VALUES (?)',
   updateProduct: 'UPDATE StoreManager.products SET name=? WHERE id=?',
   deleteProduct: 'DELETE FROM StoreManager.products WHERE id=?',
+  getProductsBySearchTerm: `
+    SELECT * FROM StoreManager.products
+    WHERE name LIKE ?;
+  `,
+  countFoundProducts: `
+    SELECT count('products') AS foundProducts FROM StoreManager.products
+    WHERE id in (?,?);
+  `,
 
   // sales queries
   addSale: 'INSERT INTO StoreManager.sales VALUES ()',

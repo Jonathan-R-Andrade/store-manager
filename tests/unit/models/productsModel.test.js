@@ -151,4 +151,47 @@ describe('productsModel', () => {
 
   });
 
+  describe('#getProductsBySearchTerm', () => {
+
+    describe('verifica se', async () => {
+      it('a função connection.execute é chamada com os argumentos corretos', async () => {
+        sinon.stub(connection, 'execute').resolves([products]);
+        await productsModel.getProductsBySearchTerm('S');
+        const query = sqlQueries.getProductsBySearchTerm;
+        expect(connection.execute.calledWithExactly(query, ['%S%'])).to.be.true;
+      });
+    });
+
+    describe('ao pesquisar um produto', async () => {
+      it('retorna um array com os produtos de acordo com a pesquisa', async () => {
+        sinon.stub(connection, 'execute').resolves([products]);
+        const response = await productsModel.getProductsBySearchTerm('S');
+        expect(response).to.be.an('array').equals(products);
+      });
+    });
+
+  });
+
+  describe('#countFoundProducts', () => {
+
+    describe('verifica se', async () => {
+      it('a função connection.execute é chamada com os argumentos corretos', async () => {
+        sinon.stub(connection, 'execute').resolves([[{ foundProducts: 2 }]]);
+        await productsModel.countFoundProducts([1, 2]);
+        const query = sqlQueries.countFoundProducts;
+        expect(connection.execute.calledWithExactly(query, [1, 2])).to.be.true;
+      });
+    });
+
+    describe('ao procurar 2 produtos que existem', async () => {
+      it('retorna o valor 2 referente a quantidade de produtos encontrados',
+        async () => {
+          sinon.stub(connection, 'execute').resolves([[{ foundProducts: 2 }]]);
+          const response = await productsModel.countFoundProducts([1, 2]);
+          expect(response).to.be.equals(2);
+        });
+    });
+
+  });
+
 });
