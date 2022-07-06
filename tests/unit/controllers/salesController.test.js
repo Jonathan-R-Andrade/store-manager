@@ -10,6 +10,7 @@ describe('salesController', () => {
   const res = {};
   const req = {};
   res.json = sinon.stub();
+  res.end = sinon.stub();
   res.status = sinon.stub().returns(res);
 
   describe('#addSale', () => {
@@ -27,6 +28,23 @@ describe('salesController', () => {
           await salesController.addSale(req, res);
           expect(res.status.calledWithExactly(201)).to.be.true;
           expect(res.json.calledWithExactly(saleWithProducts)).to.be.true;
+        });
+    });
+
+  });
+
+  describe('#deleteSale', () => {
+
+    describe('se o id estiver correto', async () => {
+      it('responde com status 204 e nada no body da resposta',
+        async () => {
+          sinon.stub(salesService, 'deleteSale').resolves(1);
+
+          req.params = '1';
+
+          await salesController.deleteSale(req, res);
+          expect(res.status.calledWithExactly(204)).to.be.true;
+          expect(res.end.calledWithExactly()).to.be.true;
         });
     });
 
