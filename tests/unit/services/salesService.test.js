@@ -3,13 +3,9 @@ const { expect } = require('chai');
 const salesService = require('../../../services/salesService');
 const salesModel = require('../../../models/salesModel');
 const salesProductsModel = require('../../../models/salesProductsModel');
+const { products } = require('../mock/data');
 
 describe('salesService', () => {
-
-  const products = [
-    { productId: 1, quantity: 5 },
-    { productId: 2, quantity: 3 }
-  ];
 
   describe('#addSale', () => {
 

@@ -4,17 +4,13 @@ const productsService = require('../../../services/productsService');
 const productsModel = require('../../../models/productsModel');
 const CustomError = require('../../../errors/CustomError');
 const chaiAsPromised = require('chai-as-promised');
+const { products, correctProduct } = require('../mock/data');
 
 use(chaiAsPromised);
 
 describe('productsService', () => {
 
   afterEach(sinon.restore);
-  const correctProduct = { name: 'PlayStation 5' };
-  const products = [
-    { id: 1, name: 'PlayStation 5' },
-    { id: 2, name: 'Xbox Series X' }
-  ];
 
   describe('#getProduct', () => {
 

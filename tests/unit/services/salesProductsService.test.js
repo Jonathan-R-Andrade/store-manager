@@ -3,38 +3,11 @@ const { expect } = require('chai');
 const salesProductsService = require('../../../services/salesProductsService');
 const salesProductsModel = require('../../../models/salesProductsModel');
 const CustomError = require('../../../errors/CustomError');
+const { salesWithProducts, productsFromASale } = require('../mock/data');
 
 describe('salesProductsService', () => {
 
   afterEach(sinon.restore);
-
-  const salesWithProducts = [
-    {
-      saleId: 1,
-      date: "2022-07-05T19:05:53.479Z",
-      productId: 5,
-      quantity: 2
-    },
-    {
-      saleId: 2,
-      date: "2022-07-05T19:05:53.479Z",
-      productId: 3,
-      quantity: 1
-    }
-  ];
-
-  const productsFromASale = [
-    {
-      date: "2022-07-05T19:57:21.000Z",
-      productId: 1,
-      quantity: 5
-    },
-    {
-      date: "2022-07-05T19:57:21.000Z",
-      productId: 2,
-      quantity: 10
-    }
-  ];
 
   describe('#listSalesWithProducts', () => {
 
