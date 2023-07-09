@@ -1,5 +1,6 @@
 require('express-async-errors');
 const express = require('express');
+const swaggerDocsRoute = require('./routes/swaggerDocsRoute');
 const productsRoute = require('./routes/productsRoute');
 const salesRoute = require('./routes/salesRoute');
 const handleErrors = require('./middlewares/handleErrors');
@@ -13,6 +14,7 @@ app.get('/', (_request, response) => {
 
 app.use(express.json());
 
+app.use('/docs', swaggerDocsRoute);
 app.use('/products', productsRoute);
 app.use('/sales', salesRoute);
 
