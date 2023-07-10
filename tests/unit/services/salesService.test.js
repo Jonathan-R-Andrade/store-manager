@@ -1,10 +1,10 @@
 const sinon = require('sinon');
 const { expect } = require('chai');
-const salesService = require('../../../services/salesService');
-const salesModel = require('../../../models/salesModel');
-const salesProductsModel = require('../../../models/salesProductsModel');
+const salesService = require('../../../src/services/salesService');
+const salesModel = require('../../../src/models/salesModel');
+const salesProductsModel = require('../../../src/models/salesProductsModel');
 const { products } = require('../mock/data');
-const CustomError = require('../../../errors/CustomError');
+const CustomError = require('../../../src/errors/CustomError');
 
 describe('salesService', () => {
 

@@ -1,8 +1,8 @@
 const sinon = require('sinon');
 const { expect, use } = require('chai');
-const productsService = require('../../../services/productsService');
-const productsModel = require('../../../models/productsModel');
-const CustomError = require('../../../errors/CustomError');
+const productsService = require('../../../src/services/productsService');
+const productsModel = require('../../../src/models/productsModel');
+const CustomError = require('../../../src/errors/CustomError');
 const chaiAsPromised = require('chai-as-promised');
 const { products, correctProduct } = require('../mock/data');
 

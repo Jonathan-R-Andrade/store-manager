@@ -1,8 +1,8 @@
 const sinon = require('sinon');
 const { expect } = require('chai');
-const salesController = require('../../../controllers/salesController');
-const salesService = require('../../../services/salesService');
-const validations = require('../../../services/validations');
+const salesController = require('../../../src/controllers/salesController');
+const salesService = require('../../../src/services/salesService');
+const validations = require('../../../src/services/validations');
 const { products, saleWithProducts } = require('../mock/data');
 
 describe('salesController', () => {

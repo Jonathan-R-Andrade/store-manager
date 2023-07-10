@@ -1,8 +1,8 @@
 const sinon = require('sinon');
 const { expect } = require('chai');
-const salesProductsService = require('../../../services/salesProductsService');
-const salesProductsModel = require('../../../models/salesProductsModel');
-const CustomError = require('../../../errors/CustomError');
+const salesProductsService = require('../../../src/services/salesProductsService');
+const salesProductsModel = require('../../../src/models/salesProductsModel');
+const CustomError = require('../../../src/errors/CustomError');
 const {
   salesWithProducts,
   productsFromASale,

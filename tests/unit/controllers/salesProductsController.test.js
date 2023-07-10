@@ -1,9 +1,9 @@
 const sinon = require('sinon');
 const { expect } = require('chai');
-const salesProductsController = require('../../../controllers/salesProductsController');
-const salesProductsService = require('../../../services/salesProductsService');
-const validations = require('../../../services/validations');
-const CustomError = require('../../../errors/CustomError');
+const salesProductsController = require('../../../src/controllers/salesProductsController');
+const salesProductsService = require('../../../src/services/salesProductsService');
+const validations = require('../../../src/services/validations');
+const CustomError = require('../../../src/errors/CustomError');
 const {
   salesWithProducts,
   productsFromASale,

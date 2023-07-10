@@ -1,10 +1,10 @@
 const sinon = require('sinon');
 const { expect, use } = require('chai');
-const productsController = require('../../../controllers/productsController');
-const productsService = require('../../../services/productsService');
-const validations = require('../../../services/validations');
+const productsController = require('../../../src/controllers/productsController');
+const productsService = require('../../../src/services/productsService');
+const validations = require('../../../src/services/validations');
 const chaiAsPromised = require('chai-as-promised');
-const CustomError = require('../../../errors/CustomError');
+const CustomError = require('../../../src/errors/CustomError');
 const { products, correctProduct, incorrectProduct } = require('../mock/data');
 
 use(chaiAsPromised);
