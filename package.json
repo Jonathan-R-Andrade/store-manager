@@ -8,9 +8,9 @@
     "npm": ">=7.0.0"
   },
   "scripts": {
-    "test": "nyc --all --include src/models --include src/services --include src/controllers mocha tests/unit/**/*.js --exit",
-    "start": "node src/index.js",
-    "debug": "nodemon --ignore coverage src/index.js",
+    "test": "NODE_ENV=test nyc --all --include src/models --include src/services --include src/controllers mocha tests/unit/**/*.js --exit",
+    "start": "NODE_ENV=production node src/index.js",
+    "debug": "NODE_ENV=development nodemon --ignore coverage src/index.js",
     "lint": "eslint --no-inline-config --no-error-on-unmatched-pattern -c .eslintrc.json --ext .js, .jsx src"
   },
   "repository": {
