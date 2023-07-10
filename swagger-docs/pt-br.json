@@ -12,11 +12,316 @@
     }
   ],
   "paths": {
-    
+    "/products": {
+      "get": {
+        "tags": ["Produtos"],
+        "summary": "Listar produtos",
+        "description": "Retorna uma lista de produtos.",
+        "responses": {
+          "200": {
+            "description": "Lista de produtos.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Produtos"
+                }
+              }
+            }
+          },
+          "500": {
+            "$ref": "#/components/responses/ErroDesconhecido"
+          }
+        }
+      },
+      "post": {
+        "tags": ["Produtos"],
+        "summary": "Adicionar produto",
+        "description": "Adiciona um novo produto.",
+        "requestBody": {
+          "description": "Objeto JSON que representa o produto a ser adicionado.",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AdicionarProduto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Produto adicionado com sucesso.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Produto"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/ObjetoJSONInvalido"
+          },
+          "422": {
+            "$ref": "#/components/responses/ObjetoJSONInvalido"
+          },
+          "500": {
+            "$ref": "#/components/responses/ErroDesconhecido"
+          }
+        }
+      }
+    },
+    "/products/{id}": {
+      "get": {
+        "tags": ["Produtos"],
+        "summary": "Buscar produto por ID",
+        "description": "Retorna um produto.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Identificador único do produto.",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "minimum": 1
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Produto encontrado.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Produto"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/ParametroInvalido"
+          },
+          "404": {
+            "$ref": "#/components/responses/ProdutoNaoEncontrado"
+          },
+          "500": {
+            "$ref": "#/components/responses/ErroDesconhecido"
+          }
+        }
+      },
+      "put": {
+        "tags": ["Produtos"],
+        "summary": "Atualizar produto por ID",
+        "description": "Atualiza um produto.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Identificador único do produto.",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "minimum": 1
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Objeto JSON que representa o produto a ser atualizado.",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AdicionarProduto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Produto atualizado com sucesso.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Produto"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/RequisicaoInvalida"
+          },
+          "404": {
+            "$ref": "#/components/responses/ProdutoNaoEncontrado"
+          },
+          "422": {
+            "$ref": "#/components/responses/ObjetoJSONInvalido"
+          },
+          "500": {
+            "$ref": "#/components/responses/ErroDesconhecido"
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Produtos"],
+        "summary": "Remover produto por ID",
+        "description": "Remove um produto.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Identificador único do produto.",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "minimum": 1
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Produto removido com sucesso."
+          },
+          "400": {
+            "$ref": "#/components/responses/ParametroInvalido"
+          },
+          "404": {
+            "$ref": "#/components/responses/ProdutoNaoEncontrado"
+          },
+          "500": {
+            "$ref": "#/components/responses/ErroDesconhecido"
+          }
+        }
+      }
+    },
+    "/products/search": {
+      "get": {
+        "tags": ["Produtos"],
+        "summary": "Buscar produtos por nome",
+        "description": "Retorna uma lista de produtos.",
+        "parameters": [
+          {
+            "name": "q",
+            "in": "query",
+            "description": "Nome do produto.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Lista de produtos.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Produtos"
+                }
+              }
+            }
+          },
+          "500": {
+            "$ref": "#/components/responses/ErroDesconhecido"
+          }
+        }
+      }
+    }
   },
   "components": {
     "schemas": {
-
+      "Produto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "Identificador único do produto",
+            "minimum": 1
+          },
+          "name": {
+            "type": "string",
+            "description": "Nome do produto"
+          }
+        },
+        "required": ["id","name"]
+      },
+      "Produtos": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/Produto"
+        }
+      },
+      "AdicionarProduto": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Nome do produto"
+          }
+        },
+        "required": ["name"]
+      },
+      "RespostaDeErro": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string"
+          }
+        },
+        "required": ["message"]
+      }
+    },
+    "responses": {
+      "ErroDesconhecido": {
+        "description": "Erro desconhecido no servidor.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/RespostaDeErro"
+            }
+          }
+        }
+      },
+      "RequisicaoInvalida": {
+        "description": "O objeto JSON enviado ou o parâmetro informado é inválido.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/RespostaDeErro"
+            }
+          }
+        }
+      },
+      "ObjetoJSONInvalido": {
+        "description": "O objeto JSON enviado é inválido ou possui propriedades com valores inválidos.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/RespostaDeErro"
+            }
+          }
+        }
+      },
+      "ParametroInvalido": {
+        "description": "O parâmetro informado é inválido.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/RespostaDeErro"
+            }
+          }
+        }
+      },
+      "ProdutoNaoEncontrado": {
+        "description": "Produto não encontrado.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/RespostaDeErro"
+            }
+          }
+        }
+      }
     }
   }
 }
