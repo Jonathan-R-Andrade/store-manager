@@ -8,14 +8,12 @@
     "npm": ">=7.0.0"
   },
   "scripts": {
-    "test": "NODE_ENV=test nyc --all --include src/models --include src/services --include src/controllers mocha tests/unit/**/*.js --exit",
-    "start": "NODE_ENV=production node src/index.js",
-    "debug": "NODE_ENV=development nodemon --ignore coverage src/index.js",
+    "start": "node src/index.js",
+    "debug": "nodemon --ignore coverage src/index.js",
+    "test": "nyc --all --include src/models --include src/services --include src/controllers mocha tests/unit/**/*.js --exit",
     "lint": "eslint --no-inline-config --no-error-on-unmatched-pattern -c .eslintrc.json --ext .js, .jsx src",
-    "migration:development": "NODE_ENV=development node -e \"require('./tests/utils/database').runMigration()\"",
-    "seed:development": "NODE_ENV=development node -e \"require('./tests/utils/database').runSeed()\"",
-    "migration:test": "NODE_ENV=test node -e \"require('./tests/utils/database').runMigration()\"",
-    "seed:test": "NODE_ENV=test node -e \"require('./tests/utils/database').runSeed()\""
+    "migration": "node -e \"require('./tests/utils/database').runMigration()\"",
+    "seed": "node -e \"require('./tests/utils/database').runSeed()\""
   },
   "repository": {
     "type": "git",
