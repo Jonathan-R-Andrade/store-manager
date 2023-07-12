@@ -1,4 +1,4 @@
-require('../../../src/utils/dotEnvVariables').load();
+require('dotenv').config();
 const mysql = require('mysql2/promise');
 const migrationSql = require('./migration.sql');
 const seedSql = require('./seed.sql');

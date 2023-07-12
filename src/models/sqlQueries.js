@@ -1,5 +1,3 @@
-require('../utils/dotEnvVariables').load();
-
 // Returns a string of question marks separated by commas,
 // ex: makeQuestionMarks(3) returns '?,?,?'
 const makeQuestionMarks = (total) => new Array(total).fill('?').join(',');
