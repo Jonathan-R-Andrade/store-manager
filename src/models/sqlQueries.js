@@ -17,7 +17,7 @@ const sqlQueries = {
   deleteProduct: () => `DELETE FROM ${dbName}.products WHERE id=?`,
   countFoundProducts: (totalIds) => `
     SELECT count('products') AS foundProducts FROM ${dbName}.products
-    WHERE id in (${makeQuestionMarks(totalIds)});
+    WHERE id IN (${makeQuestionMarks(totalIds)});
   `,
   getProductsBySearchTerm: () => `
     SELECT * FROM ${dbName}.products
@@ -55,7 +55,7 @@ const sqlQueries = {
     WHERE sale_id=? AND product_id=?;
   `,
   checkIfExistsSaleOfProducts: () => `
-    SELECT count('exists') AS \`exists\` FROM ${dbName}.sales_products
+    SELECT count(*) AS \`uniqueProductsSold\` FROM ${dbName}.sales_products
     WHERE sale_id=?;
   `,
 };
