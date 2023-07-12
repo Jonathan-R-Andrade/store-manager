@@ -11,7 +11,7 @@ const sqlQueries = {
   `,
   countFoundProducts: `
     SELECT count('products') AS foundProducts FROM StoreManager.products
-    WHERE id in (?,?);
+    WHERE id IN (?,?);
   `,
 
   // sales queries
@@ -44,8 +44,8 @@ const sqlQueries = {
     SET quantity=?
     WHERE sale_id=? AND product_id=?;
   `,
-  checkIfExistsSaleOfProducts: `
-    SELECT count('exists') AS \`exists\` FROM StoreManager.sales_products
+  countUniqueProductsSoldFromASale: `
+    SELECT count(*) AS \`uniqueProductsSold\` FROM StoreManager.sales_products
     WHERE sale_id=?;
   `,
 };

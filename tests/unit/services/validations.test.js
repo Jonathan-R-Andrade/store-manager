@@ -51,22 +51,22 @@ describe('validations', () => {
 
   });
 
-  describe('#validateIfExistsSaleOfProducts', () => {
+  describe('#validateIfTheSaleExists', () => {
 
     describe('se a venda não existe', async () => {
       it('lança uma exceção com a mensagem "Sale not found"', async () => {
-        sinon.stub(salesProductsModel, 'checkIfExistsSaleOfProducts').resolves(false);
+        sinon.stub(salesProductsModel, 'checkIfTheSaleExists').resolves(false);
 
-        await expect(validations.validateIfExistsSaleOfProducts(999))
+        await expect(validations.validateIfTheSaleExists(999))
           .to.be.rejectedWith(CustomError, 'Sale not found');
       });
     });
 
     describe('se a venda existe', async () => {
       it('não lança exceção', async () => {
-        sinon.stub(salesProductsModel, 'checkIfExistsSaleOfProducts').resolves(true);
+        sinon.stub(salesProductsModel, 'checkIfTheSaleExists').resolves(true);
 
-        await expect(validations.validateIfExistsSaleOfProducts(1))
+        await expect(validations.validateIfTheSaleExists(1))
           .not.to.be.rejectedWith(Error);
       });
     });

@@ -79,7 +79,7 @@ describe('salesProductsService', () => {
 
     describe('se a venda e os produtos existem e estão corretos', async () => {
       it('responde com status 200 e a venda com os produtos atualizados', async () => {
-        sinon.stub(validations, 'validateIfExistsSaleOfProducts');
+        sinon.stub(validations, 'validateIfTheSaleExists');
         sinon.stub(validations, 'validateIfProductsExist');
         sinon.stub(salesProductsService, 'updateProductsFromASale').resolves(saleWithUpdatedProducts);
 
@@ -94,7 +94,7 @@ describe('salesProductsService', () => {
 
     describe('se a venda não existe', async () => {
       it('lança uma exceção com a mensagem "Sale not found"', async () => {
-        sinon.stub(validations, 'validateIfExistsSaleOfProducts')
+        sinon.stub(validations, 'validateIfTheSaleExists')
           .throws(new CustomError(404, 'Sale not found'));
         sinon.stub(validations, 'validateIfProductsExist');
 
@@ -108,7 +108,7 @@ describe('salesProductsService', () => {
 
     describe('se algum produto não existe', async () => {
       it('lança uma exceção com a mensagem "Product not found"', async () => {
-        sinon.stub(validations, 'validateIfExistsSaleOfProducts');
+        sinon.stub(validations, 'validateIfTheSaleExists');
         sinon.stub(validations, 'validateIfProductsExist')
           .throws(new CustomError(404, 'Product not found'));
 
