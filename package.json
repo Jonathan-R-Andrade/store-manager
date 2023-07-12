@@ -1,8 +1,8 @@
 {
-  "name": "sd-0x-store-manager",
+  "name": "store-manager",
   "version": "1.0.0",
   "description": "Simple CRUD to sales and products",
-  "main": "index.js",
+  "main": "src/index.js",
   "engines": {
     "node": ">=16.0.0",
     "npm": ">=7.0.0"
@@ -17,14 +17,11 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/tryber/sd-02-project-store-manager.git"
+    "url": "git+https://github.com/Jonathan-R-Andrade/store-manager.git"
   },
-  "author": "",
+  "author": "Jonathan R. Andrade",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/tryber/sd-02-project-store-manager/issues"
-  },
-  "homepage": "https://github.com/tryber/sd-02-project-store-manager#readme",
+  "homepage": "https://github.com/Jonathan-R-Andrade/store-manager#readme",
   "dependencies": {
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
