@@ -1,3 +1,12 @@
 FROM node:16
 
-COPY . ./home/node/app
+WORKDIR /home/node/app
+
+COPY package.json package-lock.json ./
+
+RUN npm install
+
+COPY ./tests ./tests
+COPY ./src ./src
+
+CMD [ "npm","start" ]
