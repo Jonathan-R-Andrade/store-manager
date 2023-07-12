@@ -18,7 +18,7 @@ const updateProductsFromASale = async (req, res) => {
   const { body } = req;
   validations.validateId(id);
   validations.validateProducts(body);
-  await validations.validateIfExistsSaleOfProducts(id);
+  await validations.validateIfTheSaleExists(id);
   const productsIds = validations.extractProductId(req.body);
   await validations.validateIfProductsExist(productsIds);
   const productsUpdated = await salesProductsService.updateProductsFromASale(id, body);

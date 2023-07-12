@@ -6,56 +6,56 @@ const makeQuestionMarks = (total) => new Array(total).fill('?').join(',');
 const makeRows = (totalRows, totalColumns) =>
   new Array(totalRows).fill(`(${makeQuestionMarks(totalColumns)})`).join(',');
 
-const dbName = process.env.MYSQL_DATABASE;
+const databaseName = process.env.MYSQL_DATABASE;
 
 const sqlQueries = {
   // products queries
-  listProducts: () => `SELECT * FROM ${dbName}.products`,
-  getProduct: () => `SELECT * FROM ${dbName}.products WHERE id=?`,
-  addProduct: () => `INSERT INTO ${dbName}.products (name) VALUES (?)`,
-  updateProduct: () => `UPDATE ${dbName}.products SET name=? WHERE id=?`,
-  deleteProduct: () => `DELETE FROM ${dbName}.products WHERE id=?`,
+  listProducts: () => `SELECT * FROM ${databaseName}.products`,
+  getProduct: () => `SELECT * FROM ${databaseName}.products WHERE id=?`,
+  addProduct: () => `INSERT INTO ${databaseName}.products (name) VALUES (?)`,
+  updateProduct: () => `UPDATE ${databaseName}.products SET name=? WHERE id=?`,
+  deleteProduct: () => `DELETE FROM ${databaseName}.products WHERE id=?`,
   countFoundProducts: (totalIds) => `
-    SELECT count('products') AS foundProducts FROM ${dbName}.products
+    SELECT count('products') AS foundProducts FROM ${databaseName}.products
     WHERE id IN (${makeQuestionMarks(totalIds)});
   `,
   getProductsBySearchTerm: () => `
-    SELECT * FROM ${dbName}.products
+    SELECT * FROM ${databaseName}.products
     WHERE name LIKE ?;
   `,
 
   // sales queries
-  addSale: () => `INSERT INTO ${dbName}.sales VALUES ()`,
-  deleteSale: () => `DELETE FROM ${dbName}.sales WHERE id=?`,
+  addSale: () => `INSERT INTO ${databaseName}.sales VALUES ()`,
+  deleteSale: () => `DELETE FROM ${databaseName}.sales WHERE id=?`,
 
   // product_id queries
   addSaleProducts: (totalRows, totalColumns) => `
-    INSERT INTO ${dbName}.sales_products
+    INSERT INTO ${databaseName}.sales_products
     VALUES ${makeRows(totalRows, totalColumns)}
   `,
   listSalesWithProducts: () => `
     SELECT s.id AS saleId, s.date, p.id AS productId, sp.quantity
-    FROM ${dbName}.sales_products AS sp
-    INNER JOIN ${dbName}.products AS p
-    INNER JOIN ${dbName}.sales AS s
+    FROM ${databaseName}.sales_products AS sp
+    INNER JOIN ${databaseName}.products AS p
+    INNER JOIN ${databaseName}.sales AS s
     ON sp.sale_id = s.id AND sp.product_id = p.id
     ORDER BY s.id ASC, p.id ASC;
   `,
   getProductsFromASale: () => `
     SELECT s.date, p.id AS productId, sp.quantity
-    FROM ${dbName}.sales_products AS sp
-    INNER JOIN ${dbName}.products AS p
-    INNER JOIN ${dbName}.sales AS s
+    FROM ${databaseName}.sales_products AS sp
+    INNER JOIN ${databaseName}.products AS p
+    INNER JOIN ${databaseName}.sales AS s
     ON sp.sale_id = s.id AND sp.product_id = p.id
     WHERE s.id = ?;
   `,
   updateProductFromASale: () => `
-    UPDATE ${dbName}.sales_products
+    UPDATE ${databaseName}.sales_products
     SET quantity=?
     WHERE sale_id=? AND product_id=?;
   `,
-  checkIfExistsSaleOfProducts: () => `
-    SELECT count(*) AS \`uniqueProductsSold\` FROM ${dbName}.sales_products
+  countUniqueProductsSoldFromASale: () => `
+    SELECT count(*) AS \`uniqueProductsSold\` FROM ${databaseName}.sales_products
     WHERE sale_id=?;
   `,
 };

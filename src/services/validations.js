@@ -45,8 +45,8 @@ const validateIfProductsExist = async (productsIds) => {
   }
 };
 
-const validateIfExistsSaleOfProducts = async (saleId) => {
-  const exists = await salesProductsModel.checkIfExistsSaleOfProducts(saleId);
+const validateIfTheSaleExists = async (saleId) => {
+  const exists = await salesProductsModel.checkIfTheSaleExists(saleId);
   if (!exists) throw new CustomError(404, 'Sale not found');
 };
 
@@ -57,6 +57,6 @@ module.exports = {
   validateProduct,
   validateProducts,
   validateIfProductsExist,
-  validateIfExistsSaleOfProducts,
+  validateIfTheSaleExists,
   extractProductId,
 };

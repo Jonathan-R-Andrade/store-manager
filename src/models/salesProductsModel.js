@@ -29,10 +29,10 @@ const updateProductFromASale = async (saleId, productId, quantity) => {
   return affectedRows;
 };
 
-const checkIfExistsSaleOfProducts = async (saleId) => {
-  const query = sqlQueries.checkIfExistsSaleOfProducts();
-  const [[{ exists }]] = await connection.execute(query, [saleId]);
-  return Boolean(exists);
+const checkIfTheSaleExists = async (saleId) => {
+  const query = sqlQueries.countUniqueProductsSoldFromASale();
+  const [[{ uniqueProductsSold }]] = await connection.execute(query, [saleId]);
+  return Boolean(uniqueProductsSold);
 };
 
 module.exports = {
@@ -40,5 +40,5 @@ module.exports = {
   listSalesWithProducts,
   getProductsFromASale,
   updateProductFromASale,
-  checkIfExistsSaleOfProducts,
+  checkIfTheSaleExists,
 };
